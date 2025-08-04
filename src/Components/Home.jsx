@@ -35,14 +35,14 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="ml-[9rem] -z-10 absolute top-[7vw] bg-yellow-100 h-auto w-[89vw] ">
+    <div className="ml-[9rem] -z-10 absolute top-[7vw]  h-auto w-[89vw] ">
       <div className="flex justify-between items-center mt-5 px-4">
         
         <div className="flex">
-          <div onClick={()=>navigate(-1)} className="transition-all duration-300 hover:bg-gray-300  w-fit text-[25px] m-3 px-4 py-2 rounded-full">
+          <div onClick={()=>navigate(-1)} className="cursor-pointer transition-all duration-300 hover:bg-gray-300  w-fit text-[25px] m-3 px-4 py-2 rounded-full">
           <i class="ri-arrow-left-line"></i>
           </div>
-          <div onClick={()=>navigate(+1)} className="transition-all duration-300 hover:bg-gray-300  w-fit text-[25px] m-3 px-4 py-2 rounded-full">
+          <div onClick={()=>navigate(+1)} className="cursor-pointer transition-all duration-300 hover:bg-gray-300  w-fit text-[25px] m-3 px-4 py-2 rounded-full">
           <i class="ri-arrow-right-line"></i>
           </div>
         </div>
@@ -77,7 +77,7 @@ const Home = () => {
               High to Low
             </option>
             <option className="filter" value="Popular">
-              Propular
+              Popular
             </option>
           </select>
         </div>

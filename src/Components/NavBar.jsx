@@ -3,11 +3,13 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useContext, useState } from "react";
 import { ProductContext } from "../Constants/Context";
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
   const { products, setFiltered, categories } = useContext(ProductContext);
   const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
+  const cartItems = useSelector((state) => state?.cart?.cartItems);
 
   useGSAP(() => {
     let tl = gsap.timeline();
@@ -29,13 +31,6 @@ const NavBar = () => {
         opacity: 0,
         duration: 0.5,
         ease: "power1.out",
-      }),
-      tl.from(".menu", {
-        y: -100,
-        opacity: 0,
-        duration: 0.5,
-        stagger: 0.3,
-        ease: "bounce.out",
       }),
       tl.from(".filter", {
         y: -50,
@@ -70,10 +65,10 @@ const NavBar = () => {
   };
 
   return (
-    <div className="bg-yellow-200 h-[7vw] z-10 shadow-xl">
+    <div className="bg-gray-200 h-[7vw] z-10 shadow-xl">
       <div className="flex justify-between">
         <div className=" h-[7vw] px-4 flex items-center">
-          <h1 className="brand text-[45px]  font-extralight">Happy Shopping</h1>
+          <h1 className="brand text-[45px]  font-extralight text-lime-700">Happy Shopping</h1>
         </div>
         {/* Search section */}
         <div className="flex items-center">
@@ -131,19 +126,19 @@ const NavBar = () => {
           </select>
         </div>
 
-        <div className=" flex gap-4 mr-6 items-center px-4 text-[20px] font-mono">
+        <div className="flex gap-4 mr-6 items-center px-4 text-[20px] font-mono">
           <Link to={"/home"}>
-            <p className="menu border px-3 py-1 rounded-xl border-black">
+            <p className="menu border px-3 py-1 rounded-xl border-lime-700 transition-all duration-300 hover:bg-lime-700 hover:text-white">
               <i class="ri-home-line"></i> Home
             </p>
           </Link>
 
-          <p className="menu border px-3 py-1 rounded-xl border-black">
-            <i class="ri-shopping-cart-line"></i> Cart
+          <Link to={'/home/cart'}>
+            <p className="relative menu border px-3 py-1 rounded-xl border-lime-700 transition-all duration-300 hover:bg-lime-700 hover:text-white">
+            <i class="ri-shopping-cart-line"></i> Cart{cartItems && `-${cartItems.length}`}
+            <i className={cartItems.length>0 ? "animate-ping absolute -top-1.5 right-0 ri-circle-fill text-lime-600 text-[10px]": ""}></i>
           </p>
-          {/* <p className="menu border px-3 py-1 rounded-xl border-black">
-            <i class="ri-user-line"></i> Contact Us
-          </p> */}
+          </Link>
         </div>
       </div>
     </div>
