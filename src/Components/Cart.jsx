@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { removeItem } from "../Constants/cartSlice";
+import { addCartItems, decreaseQuantity, removeItem } from "../Constants/cartSlice";
 
 const Cart = () => {
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const Cart = () => {
       </div>
       {cartItems.length > 0 ? (
         cartItems.map((item) => (
-          <div className="flex px-20 gap-3 justify-evenly bg-gray-600 py-3 rounded-xl my-3">
+          <div className="relative flex px-20 gap-3 justify-evenly bg-gray-600 py-3 rounded-xl my-3">
             <div className="w-1/3 h-[15vw]">
                 <img className="w-full h-full object-fit rounded-xl" src={item?.image} alt="" />
             </div>
@@ -31,6 +31,9 @@ const Cart = () => {
                 <div>
                     <button onClick={()=>dispatch(removeItem(item.id))} className="bg-lime-500 px-3 py-1 mt-3 rounded-xl">Remove item</button>
                 </div>
+            </div>
+            <div className="">
+               <span className="text-lime-500 font-semibold">Quantity :</span>  <button onClick={()=>dispatch(decreaseQuantity(item.id))} className="font-semibold text-white text-[20px]">-</button> {item?.quantity} <button onClick={()=>dispatch(addCartItems(item))} className="font-semibold text-white text-[20px]">+</button>
             </div>
             
           </div>
