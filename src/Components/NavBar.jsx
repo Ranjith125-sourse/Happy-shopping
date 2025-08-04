@@ -1,8 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useContext, useState } from "react";
+import { ProductContext } from "../Constants/Context";
 
 const NavBar = () => {
+  const { products, setFiltered, categories } = useContext(ProductContext);
+  const [searchText, setSearchText] = useState("");
+  const navigate = useNavigate();
+
   useGSAP(() => {
     let tl = gsap.timeline();
     tl.from(".brand", {
@@ -12,25 +18,56 @@ const NavBar = () => {
       stagger: 0.1,
       ease: "bounce.out",
     }),
+      tl.from(".search", {
+        y: -100,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power1.out",
+      }),
+      tl.from(".category", {
+        y: -100,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power1.out",
+      }),
       tl.from(".menu", {
         y: -100,
         opacity: 0,
         duration: 0.5,
         stagger: 0.3,
         ease: "bounce.out",
-      });
+      }),
+      tl.from(".filter", {
+        y: -50,
+        duration: 0.5,
+        opacity: 0,
+        ease: "power1.out",
+      }),
       tl.from(".container", {
         x: -100,
         opacity: 0,
-        duration: 1
+        duration: 1,
       }),
       tl.from(".sidebar", {
-      x: -100,
-      opacity: 0,
-      duration: 2,
-      stagger: 0.1
-    })
+        x: -100,
+        opacity: 0,
+        duration: 2,
+        stagger: 0.1,
+      });
   });
+
+  //Search box
+  const handleSearch = () => {
+    const searchedProd = products.filter((prod) =>
+      prod.title.toLowerCase().includes(searchText.toLowerCase())
+    );
+    if (searchedProd.length === 0) {
+      navigate("/notfound");
+    } else {
+      setFiltered(searchedProd);
+    }
+    setSearchText("");
+  };
 
   return (
     <div className="bg-yellow-200 h-[7vw] z-10 shadow-xl">
@@ -38,6 +75,62 @@ const NavBar = () => {
         <div className=" h-[7vw] px-4 flex items-center">
           <h1 className="brand text-[45px]  font-extralight">Happy Shopping</h1>
         </div>
+        {/* Search section */}
+        <div className="flex items-center">
+          <div className="search">
+            <input
+              placeholder="Search here"
+              value={searchText}
+              className="border px-3 py-1 mr-3 outline-none rounded-xl"
+              type="search"
+              onChange={(e) => {
+                setSearchText(e.target.value);
+                const timer = setTimeout(() => {
+                  const searchedProd = products.filter((prod) =>
+                    prod.title
+                      .toLowerCase()
+                      .includes(e?.target?.value?.toLowerCase())
+                  );
+                  if (searchedProd.length === 0) {
+                    return navigate("/notfound");
+                  } else {
+                    setFiltered(searchedProd);
+                    navigate("/home");
+                  }
+                  return () => clearTimeout(timer);
+                }, 1000);
+                // console.log(e.target.value);
+              }}
+            />
+            <button className="text-[20px]" onClick={() => handleSearch()}>
+              <i class="ri-search-2-line"></i>
+            </button>
+          </div>
+        </div>
+
+        {/* Category section */}
+        <div className="category flex gap-4 items-center">
+          <h1>Category</h1>
+          <select
+            className="outline-none px-3 py-1 rounded-xl border border-black"
+            onChange={(e) => {
+              if (e.target.value === "all") {
+                setFiltered(products);
+              } else {
+                setFiltered(
+                  products.filter((prod) => prod.category === e.target.value)
+                );
+              }
+            }}
+          >
+            {categories.map((prod, index) => (
+              <option key={index} value={prod}>
+                {prod}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div className=" flex gap-4 mr-6 items-center px-4 text-[20px] font-mono">
           <Link to={"/home"}>
             <p className="menu border px-3 py-1 rounded-xl border-black">
@@ -48,10 +141,9 @@ const NavBar = () => {
           <p className="menu border px-3 py-1 rounded-xl border-black">
             <i class="ri-shopping-cart-line"></i> Cart
           </p>
-          <p className="menu border px-3 py-1 rounded-xl border-black">About</p>
-          <p className="menu border px-3 py-1 rounded-xl border-black">
+          {/* <p className="menu border px-3 py-1 rounded-xl border-black">
             <i class="ri-user-line"></i> Contact Us
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

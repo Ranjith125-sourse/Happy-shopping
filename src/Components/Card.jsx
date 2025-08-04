@@ -23,7 +23,7 @@ const Card = ({ products }) => {
           >
             <div className=" h-[27vw] rounded-xl">
               <div className="h-56 w-60 ">
-                <Link to={`/productdetails/${prod.id}`}>
+                <Link to={`/home/productdetails/${prod.id}`}>
                   <img
                     className="h-full w-full object-fit rounded-t-xl "
                     src={prod.image}

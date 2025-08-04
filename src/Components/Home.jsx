@@ -1,19 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { api } from "../Constants/api";
 import Card from "./Card";
 import { useDispatch } from "react-redux";
 import { addItems } from "../Constants/productSlice";
+import { ProductContext } from "../Constants/Context";
 import { useNavigate } from "react-router-dom";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [products, setProducts] = useState([]);
-  const [filtered, setFiltered] = useState([]);
-  const [searchText, setSearchText] = useState("");
-  const [categories, setCategories] = useState([]);
+  const {products, setProducts, filtered, setFiltered} = useContext(ProductContext);
+  const { setCategories} = useContext(ProductContext);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -37,57 +34,19 @@ const Home = () => {
     fetchData();
   }, []);
 
-  useGSAP(()=>{
-    let tl = gsap.timeline();
-    tl.from(".search", {
-      y: -50,
-      duration:0.5,
-      delay: 1.5,
-      opacity: 0,
-      ease: "power1.out"
-    }),
-    tl.from(".filter", {
-      y: -50,
-      duration:0.5,
-      opacity: 0,
-      ease: "power1.out"
-    }),
-    tl.from(".category", {
-      y: -50,
-      duration:0.5,
-      opacity: 0,
-      ease: "power1.out"
-    })
-  })
-
-  //Search box
-  const handleSearch = () => {
-    const searchedProd = products.filter((prod) =>
-      prod.title.toLowerCase().includes(searchText.toLowerCase())
-    );
-    if (searchedProd.length === 0) {
-      navigate("/notfound");
-    } else {
-      setFiltered(searchedProd);
-    }
-    setSearchText("");
-  };
-
   return (
     <div className="ml-[9rem] -z-10 absolute top-[7vw] bg-yellow-100 h-auto w-[89vw] ">
-      <div className="flex justify-evenly items-center mt-5 px-4">
-        <div className="search">
-          <input
-            placeholder="Search here"
-            value={searchText}
-            className="border px-3 py-1 mr-3 outline-none rounded-xl"
-            type="search"
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-          <button className="text-[20px]" onClick={() => handleSearch()}>
-            <i class="ri-search-2-line"></i>
-          </button>
+      <div className="flex justify-between items-center mt-5 px-4">
+        
+        <div className="flex">
+          <div onClick={()=>navigate(-1)} className="transition-all duration-300 hover:bg-gray-300  w-fit text-[25px] m-3 px-4 py-2 rounded-full">
+          <i class="ri-arrow-left-line"></i>
+          </div>
+          <div onClick={()=>navigate(+1)} className="transition-all duration-300 hover:bg-gray-300  w-fit text-[25px] m-3 px-4 py-2 rounded-full">
+          <i class="ri-arrow-right-line"></i>
+          </div>
         </div>
+
         {/* Filter section */}
         <div className="filter flex gap-4 items-center">
           <h1>
@@ -122,28 +81,7 @@ const Home = () => {
             </option>
           </select>
         </div>
-        {/* Category section */}
-        <div className="category flex gap-4 items-center">
-          <h1>Category</h1>
-          <select
-            className="outline-none px-3 py-1 rounded-xl border border-black"
-            onChange={(e) => {
-              if (e.target.value === "all") {
-                setFiltered(products);
-              } else {
-                setFiltered(
-                  products.filter((prod) => prod.category === e.target.value)
-                );
-              }
-            }}
-          >
-            {categories.map((prod, index) => (
-              <option key={index} value={prod}>
-                {prod}
-              </option>
-            ))}
-          </select>
-        </div>
+        
       </div>
       {loading && (
         <div className="flex items-center justify-center p-[220px]">
