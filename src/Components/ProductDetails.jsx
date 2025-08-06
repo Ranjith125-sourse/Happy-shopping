@@ -42,9 +42,9 @@ const ProductDetails = () => {
   });
 
   return (
-    <div className="box ml-[10rem] absolute top-[10vw] bg-gray-100 h-auto w-[88vw] px-5 py-4 rounded-xl">
+    <div className="border-2 border-lime-500 ml-[10rem] absolute top-[10vw] bg-gray-100 h-auto w-[88vw] px-5 py-4 rounded-xl">
        
-        <div onClick={()=>navigate(-1)} className="cursor-pointer transition-all duration-300 hover:bg-gray-300  w-fit text-[25px] m-3 px-4 py-2 rounded-full">
+        <div onClick={()=>navigate(-1)} className="cursor-pointer transition-all duration-300 hover:bg-lime-500   w-fit text-[25px] m-3 px-4 py-2 rounded-full">
           <i class="ri-arrow-left-line"></i>
         </div>
       <div className="flex flex-row">

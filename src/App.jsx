@@ -9,11 +9,12 @@ const App = () => {
   const [products, setProducts] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   return (
     <div>
       <ProductContext.Provider
-        value={{ products, setProducts, filtered, setFiltered, categories, setCategories }}
+        value={{ products, setProducts, filtered, setFiltered, categories, setCategories, loggedIn, setLoggedIn }}
       >
         <Provider store={appStore}>
           <RouterProvider router={appRoute} />

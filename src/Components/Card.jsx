@@ -34,10 +34,10 @@ const Card = ({ products }) => {
         products.map((prod) => (
           <div
             key={prod.id}
-            className="my-2 h-auto bg-gray-200 shadow-lg rounded-xl transition-all duration-300 hover:scale-105"
+            className="my-2 h-auto bg-gray-200 shadow-lg rounded-xl transition-all duration-300 hover:scale-105 border-2 hover:border-lime-500 hover:shadow-lime-500"
           >
-            <div className=" h-[27vw] rounded-xl">
-              <div className="h-56 w-60 ">
+            <div className=" h-[27vw] rounded-xl ">
+              <div className="h-56 w-60 p-4">
                 <Link to={`/home/productdetails/${prod.id}`}>
                   <img
                     className="h-full w-full object-fit rounded-t-xl "
@@ -57,7 +57,7 @@ const Card = ({ products }) => {
             </div>
               <div onClick={()=>{
                 handleCart(prod.id)
-              }} className="addCart cursor-pointer px-3 py-2 mb-4 transition-all duration-300 hover:bg-lime-700 hover:text-white rounded-xl w-fit mx-3">Add to Cart</div>
+              }} className="addCart cursor-pointer px-3 py-2 mb-4 transition-all duration-300 hover:bg-lime-600 hover:text-white rounded-xl w-fit mx-3">Add to Cart</div>
           </div>
         ))}
     </div>

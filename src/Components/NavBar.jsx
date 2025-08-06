@@ -10,6 +10,7 @@ const NavBar = () => {
   const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state?.cart?.cartItems);
+  const {loggedIn} = useContext(ProductContext);
 
   useGSAP(() => {
     let tl = gsap.timeline();
@@ -65,10 +66,10 @@ const NavBar = () => {
   };
 
   return (
-    <div className="bg-gray-200 h-[7vw] z-10 shadow-xl">
+    <div className="bg-gray-200 h-[7vw] z-10 shadow-xl border-b-2 border-lime-600">
       <div className="flex justify-between">
         <div className=" h-[7vw] px-4 flex items-center">
-          <h1 className="brand text-[45px]  font-extralight text-lime-700">Happy Shopping</h1>
+          <h1 className="brand text-[45px]  font-extralight text-lime-600">Happy Shopping</h1>
         </div>
         {/* Search section */}
         <div className="flex items-center">
@@ -128,17 +129,24 @@ const NavBar = () => {
 
         <div className="flex gap-4 mr-6 items-center px-4 text-[20px] font-mono">
           <Link to={"/home"}>
-            <p className="menu border px-3 py-1 rounded-xl border-lime-700 transition-all duration-300 hover:bg-lime-700 hover:text-white">
+            <p className="menu border px-3 py-1 rounded-xl border-lime-600 transition-all duration-300 hover:bg-lime-600 hover:text-white">
               <i class="ri-home-line"></i> Home
             </p>
           </Link>
 
           <Link to={'/home/cart'}>
-            <p className="relative menu border px-3 py-1 rounded-xl border-lime-700 transition-all duration-300 hover:bg-lime-700 hover:text-white">
+            <p className="relative menu border px-3 py-1 rounded-xl border-lime-600 transition-all duration-300 hover:bg-lime-600 hover:text-white">
             <i class="ri-shopping-cart-line"></i> Cart{cartItems && `-${cartItems.length}`}
             <i className={cartItems.length>0 ? "animate-ping absolute -top-1.5 right-0 ri-circle-fill text-lime-600 text-[10px]": ""}></i>
           </p>
           </Link>
+          {
+            loggedIn ? "" : <Link to={"/login"}>
+            <p className="menu border px-3 py-1 rounded-xl border-lime-600 transition-all duration-300 hover:bg-lime-600 hover:text-white">
+              <i className="ri-login-circle-line"></i> Login
+            </p>
+          </Link>
+          }
         </div>
       </div>
     </div>
