@@ -7,11 +7,14 @@ import {
 } from "../Constants/cartSlice";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useContext } from "react";
+import { ProductContext } from "../Constants/Context";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state?.cart?.cartItems);
+  const {isDark} = useContext(ProductContext);
 
   useGSAP(()=>{
     const tl = gsap.timeline();
@@ -26,18 +29,17 @@ const Cart = () => {
     })
   })
 
-  console.log(cartItems);
   return (
-    <div className="first ml-[10rem] -z-10 absolute top-[10vw]  h-auto w-[89vw] px-10 py-10 bg-gray-200 rounded-xl">
+    <div className={isDark? "first ml-[10rem] -z-10 absolute top-[10vw]  h-auto w-[89vw] px-10 py-10 bg-gray-500 rounded-xl" : "first ml-[10rem] -z-10 absolute top-[10vw]  h-auto w-[89vw] px-10 py-10 bg-gray-200 rounded-xl"}>
       <div
         onClick={() => navigate(-1)}
-        className="cursor-pointer transition-all duration-300 hover:bg-lime-500  w-fit text-[25px] m-3 px-4 py-2 rounded-full"
+        className={isDark? "cursor-pointer text-lime-500 transition-all duration-300 hover:bg-white  w-fit text-[25px] m-3 px-4 py-2 rounded-full" : "cursor-pointer transition-all duration-300 hover:bg-lime-500  w-fit text-[25px] m-3 px-4 py-2 rounded-full"}
       >
         <i className="ri-arrow-left-line"></i>
       </div>
       {cartItems.length > 0 ? (
         cartItems.map((item) => (
-          <div className="cart relative flex px-20 gap-3 justify-evenly bg-gray-600 py-3 rounded-xl my-3">
+          <div className="cart relative flex px-20 gap-3 justify-evenly bg-gray-900 py-3 rounded-xl my-3">
             <div className="w-1/3 h-[20vw]">
               <img
                 className="w-full h-full object-fit rounded-xl"
@@ -83,7 +85,7 @@ const Cart = () => {
               >
                 -
               </button>{" "}
-              {item?.quantity}{" "}
+              <span className="text-lime-500 text-[20px]">{item?.quantity}{" "}</span>
               <button
                 onClick={() => dispatch(addCartItems(item))}
                 className="font-semibold text-white text-[20px]"

@@ -10,7 +10,7 @@ const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {products, setProducts, filtered, setFiltered} = useContext(ProductContext);
-  const { setCategories} = useContext(ProductContext);
+  const { setCategories, isDark} = useContext(ProductContext);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -35,21 +35,21 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="ml-[9rem] -z-10 absolute top-[7vw]  h-auto w-[89vw] ">
+    <div className={isDark? "ml-[9rem] bg-gray-950 -z-10 absolute top-[7vw]  h-auto w-[89vw] " : "ml-[9rem] -z-10 absolute top-[7vw]  h-auto w-[89vw] "}>
       <div className="flex justify-between items-center mt-5 px-4">
         
         <div className="flex">
-          <div onClick={()=>navigate(-1)} className="cursor-pointer transition-all duration-300 hover:bg-lime-500  w-fit text-[25px] m-3 px-4 py-2 rounded-full">
+          <div onClick={()=>navigate(-1)} className={isDark? "cursor-pointer transition-all duration-300 hover:bg-white text-lime-500 w-fit text-[25px] m-3 px-4 py-2 rounded-full" : "cursor-pointer transition-all duration-300 hover:bg-lime-500  w-fit text-[25px] m-3 px-4 py-2 rounded-full"}>
           <i class="ri-arrow-left-line"></i>
           </div>
-          <div onClick={()=>navigate(+1)} className="cursor-pointer transition-all duration-300 hover:bg-lime-500  w-fit text-[25px] m-3 px-4 py-2 rounded-full">
+          <div onClick={()=>navigate(+1)} className={isDark? "cursor-pointer transition-all duration-300 hover:bg-white text-lime-500 w-fit text-[25px] m-3 px-4 py-2 rounded-full" : "cursor-pointer transition-all duration-300 hover:bg-lime-500  w-fit text-[25px] m-3 px-4 py-2 rounded-full"}>
           <i class="ri-arrow-right-line"></i>
           </div>
         </div>
 
         {/* Filter section */}
         <div className="filter flex gap-4 items-center">
-          <h1>
+          <h1 className={isDark? "text-lime-500": "text-black"}>
             Filter <i class="ri-filter-2-line"></i>
           </h1>{" "}
           <select

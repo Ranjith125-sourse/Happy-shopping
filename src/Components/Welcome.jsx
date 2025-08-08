@@ -17,7 +17,7 @@ const Welcome = () => {
     })
 
   return (
-    <div className="flex flex-col pl-[15vw] items-center pt-[12vw] bg-lime-200 h-[38vw]">
+    <div className="flex flex-col pl-[15vw] items-center pt-[12vw] bg-lime-400 h-[38vw]">
      <h1 className='text-[60px] font-thin flex'>{
         arr?.map((a) => <p className="welcome">{a === " " ? "\u00A0" : a}</p>)
      }</h1>

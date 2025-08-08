@@ -13,7 +13,7 @@ const Dashboard = () => {
     const tl = gsap.timeline();
     tl.from(".main", {
       opacity: 0,
-      duration: 1
+      duration: 1,
     }),
       tl.from(".user", {
         opacity: 0,
@@ -26,11 +26,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     setLoggedIn(true);
+    localStorage.setItem("loggedIn", loggedIn);
   }, [loggedIn]);
 
   return (
-    <div className="main flex flex-col items-center pt-20 ml-[10rem] -z-10 absolute top-[8vw] bg-lime-400 rounded-xl h-[35vw] w-[89vw] ">
-      <div>
+    <div className="main flex flex-col items-center pt-20 ml-[10rem] -z-10 absolute top-[8vw] bg-lime-400 rounded-xl h-auto w-[89vw] ">
+      <div className="mb-[200px]">
         <h1 className="user text-[50px]">Welcome! {token.email}</h1>
         <p className="user text-[30px]">Role: {token.role}</p>
         <div className="user">

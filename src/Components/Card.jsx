@@ -3,9 +3,13 @@ import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { useDispatch } from "react-redux";
 import { addCartItems } from "../Constants/cartSlice";
+import { useContext, useState } from "react";
+import { ProductContext } from "../Constants/Context";
 
 const Card = ({ products }) => {
   const dispatch = useDispatch();
+  const {isDark} = useContext(ProductContext);
+  const [count, setCount] = useState([]);
 
   useGSAP(() => {
     let tl = gsap.timeline();
@@ -18,14 +22,9 @@ const Card = ({ products }) => {
   });
 
   const handleCart = (id) => {
-    gsap.to(".addCart", {
-      scale: 1.5,
-      yoyo: true,
-      repeat: 1,
-      duration: 0.1
-    })
     const cart = products.find((prod) => prod.id === id);
     dispatch(addCartItems(cart))
+    setCount((prev) => [...prev, id])
   }
 
   return (
@@ -34,7 +33,7 @@ const Card = ({ products }) => {
         products.map((prod) => (
           <div
             key={prod.id}
-            className="my-2 h-auto bg-gray-200 shadow-lg rounded-xl transition-all duration-300 hover:scale-105 border-2 hover:border-lime-500 hover:shadow-lime-500"
+            className={isDark? "my-2 h-auto bg-gray-600 text-white shadow-lg rounded-xl transition-all duration-300 hover:scale-105 border-2 hover:border-lime-500 hover:shadow-lime-500" : "my-2 h-auto bg-gray-200 shadow-lg rounded-xl transition-all duration-300 hover:scale-105 border-2 hover:border-lime-500 hover:shadow-lime-500"}
           >
             <div className=" h-[27vw] rounded-xl ">
               <div className="h-56 w-60 p-4">
@@ -55,9 +54,11 @@ const Card = ({ products }) => {
                 </p>
               </div>
             </div>
-              <div onClick={()=>{
-                handleCart(prod.id)
-              }} className="addCart cursor-pointer px-3 py-2 mb-4 transition-all duration-300 hover:bg-lime-600 hover:text-white rounded-xl w-fit mx-3">Add to Cart</div>
+              <div  className="addCart cursor-pointer px-3 py-2 mb-4 transition-all duration-300 hover:bg-lime-600 hover:text-white rounded-xl w-fit mx-3">
+                {
+                  count.includes(prod.id) ? (<button disabled><i class="ri-check-double-line"></i> Added</button>) : (<button onClick={()=>handleCart(prod.id)}>Add to cart</button>)
+                }
+              </div>
           </div>
         ))}
     </div>
